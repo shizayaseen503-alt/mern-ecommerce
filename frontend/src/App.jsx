@@ -24,32 +24,50 @@ const TermsOfService = lazy(() => import("./pages/public/TermsOfService"));
 const Support = lazy(() => import("./pages/public/Support"));
 
 // ======================= AUTH PAGES =======================
-const Login = lazy(() => import("./pages/auth/Login"));
-const Register = lazy(() => import("./pages/auth/Register"));
+const Login = lazy(() => import("./pages/Auth/Login"));
+const Register = lazy(() => import("./pages/Auth/Register"));
 
-// ======================= ADMIN PAGES (FIXED PATHS) =======================
+// ======================= ADMIN PAGES =======================
 const Dashboard = lazy(() => import("./pages/Admin/Dashboard"));
 const Products = lazy(() => import("./pages/Admin/AllProducts"));
 const ProductCreate = lazy(() => import("./pages/Admin/ProductCreate"));
-const ProductEdit = lazy(() => import("./pages/Admin/ProductList")); 
+const ProductEdit = lazy(() => import("./pages/Admin/ProductList"));
 const CategoryList = lazy(() => import("./pages/Admin/CategoryList"));
 const Analytics = lazy(() => import("./pages/Admin/Analytics"));
 const Orders = lazy(() => import("./pages/Admin/Orders"));
 
-// Temporary fallback UI components for missing files to avoid Vercel crash
-const Reviews = () => <div className="p-6 text-center font-semibold text-slate-600">Reviews Management (Coming Soon)</div>;
-const Users = () => <div className="p-6 text-center font-semibold text-slate-600">Users Management (Coming Soon)</div>;
-const UserEdit = () => <div className="p-6 text-center font-semibold text-slate-600">User Edit (Coming Soon)</div>;
-
-// Standard 404 Layout Fallback Component
-const NotFound = () => (
-  <div className="min-h-screen flex flex-col items-center justify-center text-slate-800 space-y-2">
-    <h1 className="text-4xl font-black tracking-tight text-slate-900">404</h1>
-    <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Page Not Found</p>
+// Temporary fallback components
+const Reviews = () => (
+  <div className="p-6 text-center font-semibold text-slate-600">
+    Reviews Management (Coming Soon)
   </div>
 );
 
-// Protected Wrapper for Administrative Routes
+const Users = () => (
+  <div className="p-6 text-center font-semibold text-slate-600">
+    Users Management (Coming Soon)
+  </div>
+);
+
+const UserEdit = () => (
+  <div className="p-6 text-center font-semibold text-slate-600">
+    User Edit (Coming Soon)
+  </div>
+);
+
+// 404 Page
+const NotFound = () => (
+  <div className="min-h-screen flex flex-col items-center justify-center text-slate-800 space-y-2">
+    <h1 className="text-4xl font-black tracking-tight text-slate-900">
+      404
+    </h1>
+    <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider">
+      Page Not Found
+    </p>
+  </div>
+);
+
+// Admin Route Protection
 const AdminRoute = ({ children }) => {
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -67,47 +85,131 @@ const AdminRoute = ({ children }) => {
 export default function App() {
   return (
     <Layout>
-      <Suspense fallback={<Loader />}> 
-      <Routes>
-        {/* ======================= PUBLIC SHOP STACK ======================= */}
-        <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/shipping" element={<Shipping />} />
-        <Route path="/placeorder" element={<PlaceOrder />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/order/:id" element={<Order />} /> 
-        <Route path="/order-history" element={<OrderHistory />} />
-        <Route path="/favorites" element={<Favorite />} />
-        <Route path="/category" element={<Category />} />
-        <Route path="/privacy" element={<PrivacyPolicy />} />
-        <Route path="/terms" element={<TermsOfService />} />
-        <Route path="/support" element={<Support />} />
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/placeorder" element={<PlaceOrder />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/order/:id" element={<Order />} />
+          <Route path="/order-history" element={<OrderHistory />} />
+          <Route path="/favorites" element={<Favorite />} />
+          <Route path="/category" element={<Category />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/support" element={<Support />} />
 
-        {/* ======================= AUTHENTICATION STACK ======================= */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+          {/* Auth Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-        {/* ======================= ADMIN MANAGEMENT STACK ======================= */}
-        <Route path="/admin" element={<AdminRoute><Dashboard /></AdminRoute>} />
-        <Route path="/admin/dashboard" element={<AdminRoute><Dashboard /></AdminRoute>} />
-        <Route path="/admin/products" element={<AdminRoute><Products /></AdminRoute>} />
-        <Route path="/admin/product/create" element={<AdminRoute><ProductCreate /></AdminRoute>} />
-        <Route path="/admin/product/edit/:id" element={<AdminRoute><ProductEdit /></AdminRoute>} />
-        <Route path="/admin/reviews" element={<AdminRoute><Reviews /></AdminRoute>} />
-        <Route path="/admin/orders" element={<AdminRoute><Orders /></AdminRoute>} />
-        <Route path="/admin/orders/:id" element={<AdminRoute><Orders /></AdminRoute>} />
-        <Route path="/admin/users" element={<AdminRoute><Users /></AdminRoute>} />
-        <Route path="/admin/users/:id/edit" element={<AdminRoute><UserEdit /></AdminRoute>} />
-        <Route path="/admin/categories" element={<AdminRoute><CategoryList /></AdminRoute>} />
-        <Route path="/admin/analytics" element={<AdminRoute><Analytics /></AdminRoute>} />
+          {/* Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <Dashboard />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminRoute>
+                <Dashboard />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/products"
+            element={
+              <AdminRoute>
+                <Products />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/product/create"
+            element={
+              <AdminRoute>
+                <ProductCreate />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/product/edit/:id"
+            element={
+              <AdminRoute>
+                <ProductEdit />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/reviews"
+            element={
+              <AdminRoute>
+                <Reviews />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/orders"
+            element={
+              <AdminRoute>
+                <Orders />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/orders/:id"
+            element={
+              <AdminRoute>
+                <Orders />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <AdminRoute>
+                <Users />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/users/:id/edit"
+            element={
+              <AdminRoute>
+                <UserEdit />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/categories"
+            element={
+              <AdminRoute>
+                <CategoryList />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/analytics"
+            element={
+              <AdminRoute>
+                <Analytics />
+              </AdminRoute>
+            }
+          />
 
-        {/* ======================= FALLBACK ROOT ======================= */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          {/* 404 */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </Suspense>
     </Layout>
   );
