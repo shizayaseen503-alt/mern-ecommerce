@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/Logo.png";
 import { AiOutlineMenu, AiOutlineClose, AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
 import { MdMenuOpen } from "react-icons/md";
 import UserAvatar from "../common/UserAvatar";
