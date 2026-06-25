@@ -25,16 +25,16 @@ const Support = lazy(() => import("./pages/public/Support"));
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
 
-const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
-const Products = lazy(() => import("./pages/admin/Products"));
-const ProductCreate = lazy(() => import("./pages/admin/ProductCreate"));
-const ProductEdit = lazy(() => import("./pages/admin/ProductUpdate"));
-const Reviews = lazy(() => import("./pages/admin/Reviews"));
-const Orders = lazy(() => import("./pages/admin/Orders"));
-const Users = lazy(() => import("./pages/admin/Users"));
-const UserEdit = lazy(() => import("./pages/admin/UserEdit"));
-const CategoryList = lazy(() => import("./pages/admin/CategoryList"));
-const Analytics = lazy(() => import("./pages/admin/Analytics"));
+const Dashboard = lazy(() => import("./pages/Admin/Dashboard"));
+const Products = lazy(() => import("./pages/Admin/AllProducts"));
+const ProductCreate = lazy(() => import("./pages/Admin/ProductCreate"));
+const ProductEdit = lazy(() => import("./pages/Admin/ProductUpdate"));
+const Reviews = lazy(() => import("./pages/Admin/Reviews"));
+const Orders = lazy(() => import("./pages/Admin/Orders"));
+const Users = lazy(() => import("./pages/Admin/Users"));
+const UserEdit = lazy(() => import("./pages/Admin/UserEdit"));
+const CategoryList = lazy(() => import("./pages/Admin/CategoryList"));
+const Analytics = lazy(() => import("./pages/Admin/Analytics"));
 
 // Standard 404 Layout Fallback Component
 const NotFound = () => (
