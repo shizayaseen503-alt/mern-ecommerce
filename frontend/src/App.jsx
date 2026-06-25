@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Layout from "./components/layout/Layout";
 import Loader from "./components/ui/Loader";
 
+// ======================= PUBLIC PAGES =======================
 const Home = lazy(() => import("./pages/public/Home"));
 const Shop = lazy(() => import("./pages/public/Shop"));
 const Cart = lazy(() => import("./pages/public/Cart"));
@@ -22,19 +23,23 @@ const PrivacyPolicy = lazy(() => import("./pages/public/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/public/TermsOfService"));
 const Support = lazy(() => import("./pages/public/Support"));
 
+// ======================= AUTH PAGES =======================
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
 
+// ======================= ADMIN PAGES (FIXED PATHS) =======================
 const Dashboard = lazy(() => import("./pages/Admin/Dashboard"));
 const Products = lazy(() => import("./pages/Admin/AllProducts"));
 const ProductCreate = lazy(() => import("./pages/Admin/ProductCreate"));
-const ProductEdit = lazy(() => import("./pages/Admin/ProductUpdate"));
-const Reviews = lazy(() => import("./pages/Admin/Reviews"));
-const Orders = lazy(() => import("./pages/Admin/Orders"));
-const Users = lazy(() => import("./pages/Admin/Users"));
-const UserEdit = lazy(() => import("./pages/Admin/UserEdit"));
+const ProductEdit = lazy(() => import("./pages/Admin/ProductList")); 
 const CategoryList = lazy(() => import("./pages/Admin/CategoryList"));
 const Analytics = lazy(() => import("./pages/Admin/Analytics"));
+const Orders = lazy(() => import("./pages/Admin/Orders"));
+
+// Temporary fallback UI components for missing files to avoid Vercel crash
+const Reviews = () => <div className="p-6 text-center font-semibold text-slate-600">Reviews Management (Coming Soon)</div>;
+const Users = () => <div className="p-6 text-center font-semibold text-slate-600">Users Management (Coming Soon)</div>;
+const UserEdit = () => <div className="p-6 text-center font-semibold text-slate-600">User Edit (Coming Soon)</div>;
 
 // Standard 404 Layout Fallback Component
 const NotFound = () => (
