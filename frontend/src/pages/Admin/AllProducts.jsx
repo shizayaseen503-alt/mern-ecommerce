@@ -54,12 +54,14 @@ export default function AllProducts() {
                   <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">{p.description}</p>
                 </div>
 
-                <div className="px-4 pb-4 pt-1 flex items-center justify-between border-t border-slate-100 mt-auto">
-                  {/* FIXED: Reassigned map tracker variable definition directly */}
-                  <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">Stock: {p.countInStock}</span>
-                  <Link to={`/admin/product/edit/${p._id}`} className="text-xs font-bold text-slate-900 hover:underline">
-                    Manage Node &rarr;
-                  </Link>
+                <div>
+                 <h1 className="text-2xl font-black text-slate-900 tracking-tight uppercase">
+                 {STORE_NAME} Master Ledger
+                 </h1>
+                 <p className="text-xs font-semibold text-slate-400 mt-0.5">
+                 Total registered listings: {totalProducts} units.
+                </p>
+              </div>
                 </div>
               </div>
             ))}
