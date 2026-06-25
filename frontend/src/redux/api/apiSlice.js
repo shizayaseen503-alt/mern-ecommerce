@@ -1,10 +1,11 @@
-// ✨ FIXED: Changed the underscore (_) to a forward slash (/) in the package path
 import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api",
-    credentials: "include", // Essential for forwarding authentication cookies
+    baseUrl:
+      import.meta.env.VITE_API_URL ||
+      "https://mern-ecommerce-production-4dac.up.railway.app/api",
+    credentials: "include",
   }),
   tagTypes: ["Product", "Order", "User", "Category", "Cart", "Favorites"],
   endpoints: () => ({}),
