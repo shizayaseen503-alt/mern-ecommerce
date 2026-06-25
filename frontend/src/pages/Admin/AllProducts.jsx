@@ -31,7 +31,7 @@ export default function AllProducts() {
           <div>
             <h1 className="text-2xl font-black text-slate-900 tracking-tight uppercase">{STORE_NAME} Master Ledger</h1>
             <p className="text-xs font-semibold text-slate-400 mt-0.5">Total registered listings: {totalProducts} units.</p>
-          </div> {/* ✨ FIXED: Changed </Link> to </div> */}
+          </div>
           
           <Link to="/admin/product/create" className="bg-slate-900 text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl hover:bg-slate-800 transition">
             Add Product
@@ -62,7 +62,7 @@ export default function AllProducts() {
                   <Link to={`/admin/product/edit/${p._id}`} className="text-[11px] font-bold uppercase tracking-wider text-slate-600 bg-white border border-slate-200 px-3 py-1.5 rounded-lg hover:bg-slate-50 transition">
                     Update
                   </Link>
-                </div> {/* ✨ FIXED: Cleaned up the broken extra headers inside mapping block */}
+                </div>
               </div>
             ))}
           </div>
