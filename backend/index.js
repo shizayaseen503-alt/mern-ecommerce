@@ -15,9 +15,10 @@ import orderRoutes from "./routes/orderRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js"; 
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
+// Initialize environment variables cleanly for both local and production (Railway) environments
+dotenv.config();
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -116,5 +117,5 @@ app.use(errorHandler);
 app.listen(port, () => {
   console.log(`🚀 Server is running on port ${port}`);
   console.log(`📦 Environment: ${process.env.NODE_ENV || "development"}`);
-  console.log(`💾 Database: ${process.env.MONGO_URI}`);
+  console.log(`💾 Database URL configuration initialized from environment`);
 });
