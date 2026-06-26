@@ -3,8 +3,8 @@
 export const STORE_NAME = "StyleHub";
 export const BASE_URL = ""; // Leave blank if relying on Vite proxy, or "http://localhost:5000"
 
-export const PRODUCTS_URL = "/products";   // Resolves perfectly to: /api/products
-export const CATEGORIES_URL = "/categories"; // Resolves perfectly to: /api/categories
+export const PRODUCTS_URL = "/products";
+export const CATEGORIES_URL = "/categories";
 export const USERS_URL = "/users";
 export const ORDERS_URL = "/orders";
 export const UPLOAD_URL = "/upload";
