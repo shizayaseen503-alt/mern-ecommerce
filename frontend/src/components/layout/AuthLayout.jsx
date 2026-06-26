@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import Logo from "../../assets/logo.png";
-
+import Logo from "../../assets/Logo.png";
 const AuthLayout = ({ title, subtitle, children }) => {
   return (
     /* FIXED: Flex container wrapped inside safety margin boundaries to perfectly fit app workspace windows */
