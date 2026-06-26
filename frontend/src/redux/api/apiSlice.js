@@ -3,7 +3,7 @@ import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
 
 // Use the backend API prefix by default so requests hit /api/products, /api/categories, etc.
 // In local development Vite's proxy forwards these to the Express server.
-const BASE_URL = import.meta.env.VITE_API_URL || "/api";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://mern-ecommerce-production-4dac.up.railway.app/api";
 
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
