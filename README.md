@@ -181,15 +181,22 @@ Add screenshots here after deployment:
 
 ## Deployment
 
-Frontend:
+Frontend (Netlify):
 
-* Vercel
-* Netlify
+* Build command: npm run build
+* Publish directory: frontend/dist
+* Add environment variable: VITE_API_URL=https://mern-ecommerce-production-4dac.up.railway.app/api
 
-Backend:
+Backend (Railway):
 
-* Render
-* Railway
+* Start command: npm start
+* Add environment variables:
+  * PORT=5000
+  * MONGO_URI=your_mongodb_connection_string
+  * JWT_SECRET=your_super_secret_jwt_key_at_least_24_characters
+  * FRONTEND_URL=https://stylehub-mern.netlify.app
+  * CORS_ORIGIN=https://stylehub-mern.netlify.app
+  * PAYPAL_CLIENT_ID=your_paypal_client_id
 
 Database:
 

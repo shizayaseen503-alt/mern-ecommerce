@@ -8,7 +8,7 @@
     "backend": "nodemon backend/index.js",
     "frontend": "npm run dev --prefix frontend",
     "build": "npm install --prefix frontend && npm run build --prefix frontend",
-    "start": "NODE_ENV=production node backend/index.js",
+    "start": "node backend/index.js",
     "seed:products": "node backend/seedProducts.mjs",
     "test:api": "node backend/testAPI.mjs",
     "install-all": "npm install && npm install --prefix frontend"
