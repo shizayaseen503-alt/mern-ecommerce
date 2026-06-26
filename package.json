@@ -7,7 +7,7 @@
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "backend": "nodemon backend/index.js",
     "frontend": "npm run dev --prefix frontend",
-    "build": "npm run build --prefix frontend",
+    "build": "npm install --prefix frontend && npm run build --prefix frontend",
     "start": "NODE_ENV=production node backend/index.js",
     "seed:products": "node backend/seedProducts.mjs",
     "test:api": "node backend/testAPI.mjs",
@@ -42,3 +42,4 @@
     "tailwindcss": "^4.3.0"
   }
 }
+
