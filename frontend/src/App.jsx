@@ -31,7 +31,7 @@ const Register = lazy(() => import("./pages/Auth/Register"));
 const Dashboard = lazy(() => import("./pages/Admin/Dashboard"));
 const Products = lazy(() => import("./pages/Admin/AllProducts"));
 const ProductCreate = lazy(() => import("./pages/Admin/ProductCreate"));
-const ProductEdit = lazy(() => import("./pages/Admin/ProductList"));
+const ProductEdit = lazy(() => import("./pages/Admin/ProductUpdate"));
 const CategoryList = lazy(() => import("./pages/Admin/CategoryList"));
 const Analytics = lazy(() => import("./pages/Admin/Analytics"));
 const Orders = lazy(() => import("./pages/Admin/Orders"));

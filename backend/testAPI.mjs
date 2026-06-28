@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api";
+const port = process.env.PORT || "5000";
+const API_URL = process.env.API_URL || `http://127.0.0.1:${port}/api`;
 
 const tests = {
   results: [],

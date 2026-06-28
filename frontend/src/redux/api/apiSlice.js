@@ -1,9 +1,8 @@
-// ✨ FIXED: Changed the underscore (_) to a forward slash (/) in the package path
 import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
 
-// Use the backend API prefix by default so requests hit /api/products, /api/categories, etc.
-// In local development Vite's proxy forwards these to the Express server.
-const BASE_URL = import.meta.env.VITE_API_URL || "https://mern-ecommerce-production-4dac.up.railway.app/api";
+// Use the same-origin /api path by default so the app works in local Vite dev,
+// Netlify proxy deployments, and any reverse-proxy hosting without a hardcoded backend URL.
+const BASE_URL = (import.meta.env.VITE_API_URL || "/api").replace(/\/$/, "");
 
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
