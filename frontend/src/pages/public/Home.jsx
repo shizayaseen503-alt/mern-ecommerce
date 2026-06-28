@@ -1,8 +1,6 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useGetProductsQuery } from "../../redux/api/productApiSlice";
 import ProductCard from "../../components/products/ProductCard";
-import Loader from "../../components/ui/Loader";
 import { FiArrowRight, FiShield, FiTruck, FiAward } from "react-icons/fi";
 import { HiSparkles } from "react-icons/hi2";
 

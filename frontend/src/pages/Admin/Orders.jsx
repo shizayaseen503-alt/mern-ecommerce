@@ -230,10 +230,10 @@ export default function Orders() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {orders.map((orderItem) => {
+                {orders.map((orderItem, index) => {
                   const orderId = orderItem?._id;
                   return (
-                    <tr key={orderId || orderItem?.user?.email || Math.random()}>
+                    <tr key={orderId || `${orderItem?.user?.email || "guest"}-${index}`}>
                       <td className="px-4 py-3 text-sm font-semibold text-slate-700">{orderId || "-"}</td>
                       <td className="px-4 py-3 text-sm text-slate-600">{orderItem.user?.username || orderItem.user?.email || "Guest"}</td>
                       <td className="px-4 py-3 text-sm font-bold text-slate-900">${orderItem.totalPrice?.toFixed(2) || "0.00"}</td>

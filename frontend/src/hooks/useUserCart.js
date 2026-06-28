@@ -219,7 +219,7 @@ export const useUserCart = () => {
         dispatch(setLoading(false));
       }
     },
-    [cartItems, dispatch, updateCartItem, userInfo]
+    [cartItems, dispatch, handleRemoveFromCart, updateCartItem, userInfo]
   );
 
   const handleClearCart = useCallback(async () => {

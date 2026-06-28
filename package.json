@@ -10,6 +10,7 @@
     "build": "npm install --prefix frontend && npm run build --prefix frontend",
     "start": "node backend/index.js",
     "seed:products": "node backend/seedProducts.mjs",
+    "seed:all": "node seeder.js",
     "test:api": "node backend/testAPI.mjs",
     "install-all": "npm install && npm install --prefix frontend"
   },

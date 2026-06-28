@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { STORE_NAME } from "../../constants";
-import Loader from "../../components/ui/Loader";
 import Message from "../../components/ui/Message";
 import {
   useGetUsersQuery,

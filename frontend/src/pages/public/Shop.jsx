@@ -21,10 +21,6 @@ const Shop = () => {
   const [searchTerm, setSearchTerm] = useState(""); 
   const [sortOption, setSortOption] = useState(""); 
 
-  useEffect(() => {
-    setPageNumber(1);
-  }, [searchTerm, sortOption, categoryFilter]);
-
   // Inline Search Input Debouncing Engine
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
 

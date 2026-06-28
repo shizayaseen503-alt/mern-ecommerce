@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { STORE_NAME } from "../../constants";
@@ -11,24 +11,29 @@ const steps = [
 
 export default function Shipping() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ address: "", city: "", postalCode: "", country: "" });
+  const [form, setForm] = useState(() => {
+    if (typeof window === "undefined") {
+      return { address: "", city: "", postalCode: "", country: "" };
+    }
 
-  useEffect(() => {
     const saved = localStorage.getItem("shippingAddress");
-    if (!saved) return;
+    if (!saved) {
+      return { address: "", city: "", postalCode: "", country: "" };
+    }
 
     try {
       const parsed = JSON.parse(saved);
-      setForm({
+      return {
         address: parsed.address || "",
         city: parsed.city || "",
         postalCode: parsed.postalCode || "",
         country: parsed.country || "",
-      });
+      };
     } catch {
       localStorage.removeItem("shippingAddress");
+      return { address: "", city: "", postalCode: "", country: "" };
     }
-  }, []);
+  });
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));

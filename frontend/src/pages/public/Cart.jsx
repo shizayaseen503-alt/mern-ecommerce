@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"; 
 import { Link } from "react-router-dom"; 
-import { removeFromCart, updateQtyLocal } from "../../redux/features/cart/cartSlice";
+import { removeFromCart } from "../../redux/features/cart/cartSlice";
 import { showNotice } from "../../redux/features/ui/noticeSlice";
 import { useUserCart } from "../../hooks/useUserCart";
 

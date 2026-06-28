@@ -53,7 +53,7 @@ export default function Layout({ children }) {
     if (message) {
       dispatch(clearNotice());
     }
-  }, [location.pathname, dispatch]);
+  }, [dispatch, location.pathname, message]);
 
   const logoutHandler = async () => {
     try {

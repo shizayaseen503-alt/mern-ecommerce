@@ -1,3 +1,5 @@
+import process from "process";
+
 export async function handler(event) {
   const backendUrl = process.env.BACKEND_URL || process.env.VITE_API_URL || "https://mern-ecommerce-production-4dac.up.railway.app/api";
   const url = new URL(event.rawUrl);

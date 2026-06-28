@@ -1,11 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Logo from "../../assets/Logo.png";
 import { AiOutlineMenu, AiOutlineClose, AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
 import { MdMenuOpen } from "react-icons/md";
 import UserAvatar from "../common/UserAvatar";
 
-const Navbar = ({ mobileMenuOpen, setMobileMenuOpen, sidebarCollapsed, setSidebarCollapsed, cartItems = [], userInfo = null }) => {
-  const location = useLocation();
+const Navbar = ({ mobileMenuOpen, setMobileMenuOpen, setSidebarCollapsed, cartItems = [], userInfo = null }) => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-white border-b border-slate-100/80 flex items-center transition-all duration-300">
