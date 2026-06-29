@@ -7,8 +7,8 @@ const generateToken = (res, userId) => {
 
   res.cookie("jwt", token, {
     httpOnly: true,
-    secure: true,     
-    sameSite: "none",  
+    secure: true,      // Tells browser to trust the HTTPS on Netlify/Railway
+    sameSite: "none",  // Crucial: Tells the browser it's allowed to send the token across different websites
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 };
