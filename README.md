@@ -16,19 +16,16 @@ A production-ready MERN e-commerce app with customer shopping flow, admin invent
 - Backend: Node.js, Express, MongoDB, Mongoose, JWT, Multer
 - Deployment: Netlify for frontend, Railway or any Node host for backend
 
-## Run locally
+## Local development
+
+1. Install dependencies:
 
 ```bash
 npm install
 npm run install-all
-npm run dev
 ```
 
-The root script starts the backend and frontend together.
-
-## Environment variables
-
-Create a backend .env file with:
+2. Create a backend `.env` file in the project root with:
 
 ```env
 PORT=5000
@@ -39,16 +36,62 @@ CORS_ORIGIN=http://localhost:5173
 NODE_ENV=development
 ```
 
-## Build and verify
+3. Start both servers:
+
+```bash
+npm run dev
+```
+
+This runs the backend with `nodemon` and the frontend with Vite.
+
+## Database seeding
+
+- Seed products only:
+
+```bash
+npm run seed:products
+```
+
+- Seed full demo data (categories, products, users, orders):
+
+```bash
+npm run seed:all
+```
+
+## Build and test
+
+Build the frontend for production:
 
 ```bash
 npm run build
+```
+
+Run the backend API test script:
+
+```bash
 node backend/testAPI.mjs
 ```
 
-## Deployment notes
+## Deployment
 
-- Frontend: Netlify build command `npm run build`, publish directory `frontend/dist`
-- Backend: Railway or similar Node host, start command `npm start`
-- Set the same environment variables on the hosting platform
-- For frontend production requests, use `/api` so the Netlify proxy handles routing
+### Backend
+
+- Start command: `npm start`
+- This runs `node backend/index.js`
+- Set the same environment variables in your host provider
+
+### Frontend
+
+- Build command: `npm run build`
+- Publish directory: `frontend/dist`
+
+### Railway
+
+- Build command: `npm run build`
+- Start command: `npm start`
+- Ensure `MONGO_URI`, `JWT_SECRET`, and any frontend URL/CORS variables are configured in Railway environment settings
+
+## Notes
+
+- The root `npm run dev` command is for local development only.
+- Production should use the built frontend assets and the backend start command.
