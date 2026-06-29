@@ -25,7 +25,20 @@ const port = process.env.PORT || 5000;
 validateEnv();
 
 // DB Initialization
-connectDB();
+// Start server only after DB connection to avoid crash-at-start on invalid MONGO_URI
+
+const start = async () => {
+  await connectDB();
+
+  // ================= SERVER START =================
+  app.listen(port, () => {
+    console.log(`🚀 Server is running on port ${port}`);
+    console.log(`📦 Environment: ${process.env.NODE_ENV || "development"}`);
+    console.log(`💾 Database URL configuration initialized from environment`);
+  });
+};
+
+start();
 
 // ================= MIDDLEWARE =================
 // Compression for faster responses
@@ -135,9 +148,4 @@ app.use("/uploads", express.static(path.resolve(__dirname, "./uploads"), {
 app.use(notFound);
 app.use(errorHandler);
 
-// ================= SERVER START =================
-app.listen(port, () => {
-  console.log(`🚀 Server is running on port ${port}`);
-  console.log(`📦 Environment: ${process.env.NODE_ENV || "development"}`);
-  console.log(`💾 Database URL configuration initialized from environment`);
-});
+// Server startup moved to `start()` after DB initialization
