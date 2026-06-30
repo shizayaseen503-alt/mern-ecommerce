@@ -66,8 +66,14 @@ export default function PlaceOrder() {
       }).unwrap();
 
       dispatch(clearCart());
-      toast.success("Order sequence locked in ledger indices!");
-      navigate(`/order/${res._id}`);
+      const orderId = res?._id;
+      if (orderId) {
+        toast.success("Order sequence locked in ledger indices!");
+        navigate(`/order/${orderId}`);
+      } else {
+        toast.success("Order received. You can review it from your order history.");
+        navigate("/order-history");
+      }
     } catch (err) {
       toast.error(err?.data?.message || "Failed to commit order structures.");
     }

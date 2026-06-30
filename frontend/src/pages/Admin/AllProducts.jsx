@@ -5,7 +5,7 @@ import { useGetProductsQuery } from "../../redux/api/productApiSlice";
 export default function AllProducts() {
   const PAGE_SIZE = 100;
   const { data, isLoading, isError } = useGetProductsQuery({ pageNumber: 1, pageSize: PAGE_SIZE });
-  const products = data?.products || []; 
+  const products = Array.isArray(data?.products) ? data.products : []; 
   const totalProducts = data?.total ?? products.length;
 
   if (isLoading) {
@@ -19,7 +19,7 @@ export default function AllProducts() {
   if (isError) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50/60">
-        <div className="text-xs font-bold text-rose-500 uppercase tracking-widest">Network connectivity error on product lookup.</div>
+        <div className="text-xs font-bold text-amber-600 uppercase tracking-widest">Network connectivity error on product lookup. Showing a safe empty catalog state.</div>
       </div>
     );
   }

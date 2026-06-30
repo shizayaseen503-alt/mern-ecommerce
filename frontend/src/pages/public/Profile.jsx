@@ -295,7 +295,7 @@ const Profile = () => {
               </h3> 
               <div className="space-y-2"> 
                 <Link 
-                  to="/myorder" 
+                  to="/order-history" 
                   className="block text-center bg-slate-900 hover:bg-emerald-600 text-white py-3 rounded-xl font-bold text-xs tracking-wide transition shadow-2xs active:scale-[0.98]" 
                 > 
                   My Orders 

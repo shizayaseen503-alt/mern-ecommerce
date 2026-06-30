@@ -1,11 +1,20 @@
 import Category from "../models/categoryModel.js";
 import Product from "../models/productModel.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
+import { isDatabaseUnavailable } from "../utils/dbFallback.js";
 
 // GET ALL
 const getCategories = asyncHandler(async (req, res) => {
-  const categories = await Category.find({}).sort({ name: 1 });
-  res.json(categories);
+  try {
+    const categories = await Category.find({}).sort({ name: 1 });
+    res.json(categories);
+  } catch (error) {
+    if (isDatabaseUnavailable(error)) {
+      return res.status(200).json([]);
+    }
+
+    throw error;
+  }
 });
 
 // CREATE

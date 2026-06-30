@@ -22,12 +22,19 @@ export default function Login() {
       return toast.error("Please provide both email and password keys.");
     }
     try { 
-      const res = await login({ email: email.trim(), password }).unwrap(); 
+      const res = await login({ email: email.trim(), password }).unwrap();
+      const normalizedUser = {
+        _id: res?._id || null,
+        username: res?.username || email.trim(),
+        email: res?.email || email.trim(),
+        isAdmin: Boolean(res?.isAdmin),
+        profileImage: res?.profileImage || null,
+      };
       dispatch(clearCartLocal());
       dispatch(clearFavoritesLocal());
-      dispatch(setCredentials(res)); 
-      toast.success("Welcome back! Signed in successfully"); 
-      navigate("/"); 
+      dispatch(setCredentials(normalizedUser));
+      toast.success("Welcome back! Signed in successfully");
+      navigate("/");
     } catch (err) { 
       toast.error(err?.data?.message || err?.message || "Invalid authentication credentials"); 
     } 

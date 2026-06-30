@@ -5,7 +5,7 @@ import {
   AiOutlineInfoCircle 
 } from "react-icons/ai";
 
-export default function Message({ children, type = 'info' }) { 
+export default function Message({ children, type = 'info', variant }) { 
   const configurationMap = { 
     success: {
       classes: 'bg-emerald-50/60 text-emerald-800 border-emerald-100/80',
@@ -25,7 +25,13 @@ export default function Message({ children, type = 'info' }) {
     },
   }; 
 
-  const activeConfig = configurationMap[type] || configurationMap.info;
+  const normalizedType = ['success', 'error', 'warning', 'info'].includes(type)
+    ? type
+    : variant === 'danger'
+      ? 'error'
+      : variant || 'info';
+
+  const activeConfig = configurationMap[normalizedType] || configurationMap.info;
 
   return ( 
     <div 

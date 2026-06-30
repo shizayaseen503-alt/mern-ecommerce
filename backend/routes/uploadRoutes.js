@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import { authenticate } from "../middlewares/authMiddleware.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import User from "../models/userModel.js";
+import { getImageUploadErrorMessage, isAllowedImageFile } from "../utils/imageUpload.js";
 
 const router = express.Router();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -31,17 +32,12 @@ const storage = multer.diskStorage({
 
 // Validate file types (Images only)
 const fileFilter = (req, file, cb) => {
-  const filetypes = /jpe?g|png|webp/;
-  const mimetypes = /image\/jpeg|image\/png|image\/webp/;
-
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = mimetypes.test(file.mimetype);
-
-  if (extname && mimetype) {
+  if (isAllowedImageFile(file)) {
     cb(null, true);
-  } else {
-    cb(new Error("Format rejected. Only JPEG, PNG, and WEBP images are allowed!"), false);
+    return;
   }
+
+  cb(new Error(getImageUploadErrorMessage()), false);
 };
 
 const upload = multer({ storage, fileFilter });

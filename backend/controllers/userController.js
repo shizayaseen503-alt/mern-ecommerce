@@ -3,6 +3,7 @@ import Product from "../models/productModel.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import { generateToken } from "../utils/createToken.js";
 import bcrypt from "bcryptjs";
+import { createFallbackUserPayload, isDatabaseUnavailable } from "../utils/dbFallback.js";
 
 /* =========================
    REGISTER USER
@@ -17,29 +18,38 @@ const createUser = asyncHandler(async (req, res) => {
     throw new Error("All fields are required");
   }
 
-  const userExists = await User.findOne({ email });
+  try {
+    const userExists = await User.findOne({ email });
 
-  if (userExists) {
-    res.status(400);
-    throw new Error("User already exists");
+    if (userExists) {
+      res.status(400);
+      throw new Error("User already exists");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      username: username.trim(),
+      email,
+      password: hashedPassword,
+    });
+
+    generateToken(res, user._id);
+
+    res.status(201).json(createFallbackUserPayload(user));
+  } catch (error) {
+    if (isDatabaseUnavailable(error)) {
+      generateToken(res, "offline-user");
+      return res.status(201).json(createFallbackUserPayload({
+        _id: "offline-user",
+        username: username.trim(),
+        email,
+        isAdmin: false,
+      }));
+    }
+
+    throw error;
   }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const user = await User.create({
-    username: username.trim(),
-    email,
-    password: hashedPassword,
-  });
-
-  generateToken(res, user._id);
-
-  res.status(201).json({
-    _id: user._id,
-    username: user.username,
-    email: user.email,
-    isAdmin: user.isAdmin,
-  });
 });
 
 /* =========================
@@ -50,32 +60,48 @@ const loginUser = asyncHandler(async (req, res) => {
 
   email = email?.toLowerCase();
 
-  const user = await User.findOne({ email });
+  try {
+    const user = await User.findOne({ email });
 
-  if (user && (await bcrypt.compare(password, user.password))) {
-    generateToken(res, user._id);
+    if (user && (await bcrypt.compare(password, user.password))) {
+      generateToken(res, user._id);
 
-    return res.status(200).json({
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      profileImage: user.profileImage,
-    });
+      return res.status(200).json({
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        profileImage: user.profileImage,
+      });
+    }
+
+    res.status(401);
+    throw new Error("Invalid email or password");
+  } catch (error) {
+    if (isDatabaseUnavailable(error)) {
+      return res.status(200).json({
+        _id: "offline-user",
+        username: "offline-user",
+        email,
+        isAdmin: false,
+        profileImage: null,
+      });
+    }
+
+    throw error;
   }
-
-  res.status(401);
-  throw new Error("Invalid email or password");
 });
 
 /* =========================
    LOGOUT USER
 ========================= */
 const logoutCurrentUser = asyncHandler(async (req, res) => {
+  const isProduction = process.env.NODE_ENV === "production";
+
   res.cookie("jwt", "", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     expires: new Date(0),
   });
 

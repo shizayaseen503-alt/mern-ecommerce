@@ -42,8 +42,8 @@ export default function Reviews() {
   if (isError) {
     return (
       <section className="min-h-screen bg-slate-50/60 px-4 py-10">
-        <div className="mx-auto max-w-2xl rounded-2xl border border-rose-100 bg-rose-50 p-6 text-center text-sm font-bold text-rose-600">
-          {error?.data?.message || "Failed to load reviews."}
+        <div className="mx-auto max-w-2xl rounded-2xl border border-amber-100 bg-amber-50 p-6 text-center text-sm font-bold text-amber-700">
+          {error?.data?.message || "Failed to load reviews. No review data is available right now."}
         </div>
       </section>
     );

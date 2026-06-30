@@ -51,7 +51,7 @@ const Users = () => {
     return (
       <section className="min-h-screen bg-slate-50/60 px-4 py-10">
         <div className="mx-auto max-w-2xl">
-          <Message type="error">{error?.data?.message || "We couldn’t load the users right now. Please try again."}</Message>
+          <Message type="warning">{error?.data?.message || "We couldn’t load the users right now. The page will show an empty state until the API is available."}</Message>
         </div>
       </section>
     );

@@ -32,7 +32,7 @@ const Favorite = () => {
     await addToCart(product, 1);
   }; 
 
-  if (!favorites.length) { 
+  if (!Array.isArray(favorites) || !favorites.length) { 
     return <EmptyWishlistState />;
   } 
 

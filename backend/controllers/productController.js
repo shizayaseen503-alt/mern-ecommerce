@@ -3,99 +3,116 @@ import Product from "../models/productModel.js";
 import Category from "../models/categoryModel.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import { calculateRatingSummary, removeReviewAndRecalculate } from "../utils/reviewUtils.js";
+import { getFallbackProductsPayload, isDatabaseUnavailable } from "../utils/dbFallback.js";
 
 // GET ALL PRODUCTS
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = Number(req.query.pageSize) || 12;
-  const page = Number(req.query.pageNumber) || 1;
+  try {
+    const pageSize = Number(req.query.pageSize) || 12;
+    const page = Number(req.query.pageNumber) || 1;
 
-  const keyword = req.query.keyword
-    ? {
-        $or: [
-          { name: { $regex: req.query.keyword, $options: "i" } },
-          { description: { $regex: req.query.keyword, $options: "i" } },
-          { brand: { $regex: req.query.keyword, $options: "i" } },
-        ],
-      }
-    : {};
+    const keyword = req.query.keyword
+      ? {
+          $or: [
+            { name: { $regex: req.query.keyword, $options: "i" } },
+            { description: { $regex: req.query.keyword, $options: "i" } },
+            { brand: { $regex: req.query.keyword, $options: "i" } },
+          ],
+        }
+      : {};
 
-  let categoryFilter = {};
-  if (req.query.category) {
-    if (mongoose.Types.ObjectId.isValid(req.query.category)) {
-      categoryFilter = { category: req.query.category };
-    } else {
-      const categoryDoc = await Category.findOne({
-        name: { $regex: `^${req.query.category}$`, $options: "i" },
-      }).select("_id");
+    let categoryFilter = {};
+    if (req.query.category) {
+      if (mongoose.Types.ObjectId.isValid(req.query.category)) {
+        categoryFilter = { category: req.query.category };
+      } else {
+        const categoryDoc = await Category.findOne({
+          name: { $regex: `^${req.query.category}$`, $options: "i" },
+        }).select("_id");
 
-      if (categoryDoc) {
-        categoryFilter = { category: categoryDoc._id };
+        if (categoryDoc) {
+          categoryFilter = { category: categoryDoc._id };
+        }
       }
     }
-  }
 
-  const filter = {
-    ...keyword,
-    ...categoryFilter,
-  };
+    const filter = {
+      ...keyword,
+      ...categoryFilter,
+    };
 
-  // Determine sort order based on sort parameter
-  let sortOrder = { createdAt: -1 }; // Default: newest first
+    let sortOrder = { createdAt: -1 };
 
-  if (req.query.sort) {
-    switch (req.query.sort) {
-      case "price-low":
-        sortOrder = { price: 1 }; // Low to high
-        break;
-      case "price-high":
-        sortOrder = { price: -1 }; // High to low
-        break;
-      case "name-asc":
-        sortOrder = { name: 1 }; // A-Z
-        break;
-      case "name-desc":
-        sortOrder = { name: -1 }; // Z-A
-        break;
-      case "newest":
-        sortOrder = { createdAt: -1 }; // Newest first
-        break;
-      case "oldest":
-        sortOrder = { createdAt: 1 }; // Oldest first
-        break;
-      default:
-        sortOrder = { createdAt: -1 };
+    if (req.query.sort) {
+      switch (req.query.sort) {
+        case "price-low":
+          sortOrder = { price: 1 };
+          break;
+        case "price-high":
+          sortOrder = { price: -1 };
+          break;
+        case "name-asc":
+          sortOrder = { name: 1 };
+          break;
+        case "name-desc":
+          sortOrder = { name: -1 };
+          break;
+        case "newest":
+          sortOrder = { createdAt: -1 };
+          break;
+        case "oldest":
+          sortOrder = { createdAt: 1 };
+          break;
+        default:
+          sortOrder = { createdAt: -1 };
+      }
     }
+
+    const count = await Product.countDocuments(filter);
+
+    const products = await Product.find(filter)
+      .populate("category", "name")
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+      .sort(sortOrder);
+
+    res.json({
+      products,
+      page,
+      pages: Math.ceil(count / pageSize),
+      total: count,
+    });
+  } catch (error) {
+    if (isDatabaseUnavailable(error)) {
+      return res.status(200).json(getFallbackProductsPayload());
+    }
+
+    throw error;
   }
-
-  const count = await Product.countDocuments(filter);
-
-  const products = await Product.find(filter)
-    .populate("category", "name")
-    .limit(pageSize)
-    .skip(pageSize * (page - 1))
-    .sort(sortOrder);
-
-  res.json({
-    products,
-    page,
-    pages: Math.ceil(count / pageSize),
-    total: count,
-  });
 });
 
 // GET SINGLE PRODUCT
 const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id).populate(
-    "category",
-    "name"
-  );
+  try {
+    const product = await Product.findById(req.params.id).populate(
+      "category",
+      "name"
+    );
 
-  if (!product) {
-    res.status(404);
-    throw new Error("Product not found");
+    if (!product) {
+      res.status(404);
+      throw new Error("Product not found");
+    }
+
+    res.json(product);
+  } catch (error) {
+    if (isDatabaseUnavailable(error)) {
+      res.status(404);
+      throw new Error("Product not found");
+    }
+
+    throw error;
   }
-
-  res.json(product);
 });
 
 // CREATE REVIEW

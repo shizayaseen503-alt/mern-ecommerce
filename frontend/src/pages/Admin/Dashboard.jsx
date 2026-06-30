@@ -15,6 +15,7 @@ const Dashboard = () => {
   const ordersCount = Array.isArray(orders) ? orders.length : 0;
   const usersCount = Array.isArray(usersData?.users) ? usersData.users.length : 0;
   const categoriesCount = Array.isArray(categories) ? categories.length : 0;
+  const isOffline = !productsData && !orders.length && !usersData && !categories.length;
 
   const stats = [
     {
@@ -92,6 +93,9 @@ const Dashboard = () => {
                 <span className="text-slate-500">Registered Users</span>
                 <span className="font-bold text-slate-900">{usersCount}</span>
               </div>
+              {isOffline && (
+                <p className="text-[11px] font-semibold text-amber-600">Offline mode: stats are showing local defaults until the API is reachable.</p>
+              )}
             </div>
           </div>
         </div>

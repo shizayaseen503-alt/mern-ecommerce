@@ -35,10 +35,17 @@ const UpdateForm = ({ product, categories, isUpdating, onUpdate }) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+    const extension = file.name?.split(".").pop()?.toLowerCase();
+    const isAllowed = allowedTypes.includes(file.type) || ["jpg", "jpeg", "png", "webp"].includes(extension);
+
+    if (!isAllowed) {
+      toast.error("Format rejected. Only JPEG, PNG, and WEBP images are allowed!");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("image", file);
-    console.log("Uploading file:", file.name, file.type, file.size);
-    console.log("Form data has image:", formData.has("image"));
 
     try {
       setIsUploadingImage(true);
@@ -46,7 +53,6 @@ const UpdateForm = ({ product, categories, isUpdating, onUpdate }) => {
       setImage(response.image);
       toast.success("Image uploaded successfully.");
     } catch (err) {
-      console.error("Upload error details:", err);
       const message =
         err?.data?.message ||
         err?.error ||
@@ -118,7 +124,7 @@ const UpdateForm = ({ product, categories, isUpdating, onUpdate }) => {
             </span>
             <input
               type="file"
-              accept="image/*"
+              accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/jpg,image/png,image/webp"
               onChange={uploadFileHandler}
               className="absolute inset-0 h-full w-full opacity-0 cursor-pointer"
             />

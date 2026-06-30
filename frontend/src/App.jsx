@@ -35,25 +35,9 @@ const ProductEdit = lazy(() => import("./pages/Admin/ProductUpdate"));
 const CategoryList = lazy(() => import("./pages/Admin/CategoryList"));
 const Analytics = lazy(() => import("./pages/Admin/Analytics"));
 const Orders = lazy(() => import("./pages/Admin/Orders"));
-
-// Temporary fallback components
-const Reviews = () => (
-  <div className="p-6 text-center font-semibold text-slate-600">
-    Reviews Management (Coming Soon)
-  </div>
-);
-
-const Users = () => (
-  <div className="p-6 text-center font-semibold text-slate-600">
-    Users Management (Coming Soon)
-  </div>
-);
-
-const UserEdit = () => (
-  <div className="p-6 text-center font-semibold text-slate-600">
-    User Edit (Coming Soon)
-  </div>
-);
+const Reviews = lazy(() => import("./pages/Admin/Reviews"));
+const Users = lazy(() => import("./pages/Admin/Users"));
+const UserEdit = lazy(() => import("./pages/Admin/UserEdit"));
 
 // 404 Page
 const NotFound = () => (

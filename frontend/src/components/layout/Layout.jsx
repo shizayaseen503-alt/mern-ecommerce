@@ -34,7 +34,7 @@ export default function Layout({ children }) {
   const visibleAdminLinks = userInfo?.isAdmin ? adminLinks : [];
   const showNoticeBanner = (() => {
     const publicPrefixes = ["/product/", "/order/"];
-    const publicPaths = ["/", "/shop", "/cart", "/favorites", "/login", "/register", "/profile", "/shipping", "/payment", "/placeorder", "/order-history", "/support", "/privacy-policy", "/terms-of-service"];
+    const publicPaths = ["/", "/shop", "/cart", "/favorites", "/login", "/register", "/profile", "/shipping", "/payment", "/placeorder", "/order-history", "/support", "/privacy", "/terms"];
 
     return publicPaths.includes(location.pathname) || publicPrefixes.some((prefix) => location.pathname.startsWith(prefix));
   })();

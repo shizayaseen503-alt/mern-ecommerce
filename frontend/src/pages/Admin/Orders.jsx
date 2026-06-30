@@ -199,8 +199,8 @@ export default function Orders() {
   if (isOrdersError) {
     return (
       <section className="p-6 max-w-3xl mx-auto">
-        <Message variant="error">
-          {ordersError?.data?.message || "Failed to load orders."}
+        <Message variant="warning">
+          {ordersError?.data?.message || "Failed to load orders. Showing an empty order state until the backend is reachable."}
         </Message>
       </section>
     );
